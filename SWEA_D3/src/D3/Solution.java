@@ -1,52 +1,39 @@
 package D3;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
+
 import java.util.Scanner;
 
 public class Solution {
-	static int N;
-	static int arr[];
-	static boolean check[];
-	static boolean visit[];
-	static ArrayList<Integer> list;
+	static int T, N, Q;
+	static int[] arr;
+	static int L, R;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner s = new Scanner(System.in);
-		int T = s.nextInt();
-		for (int t = 1; t <= T; t++) {
-			N = 3;
-			check = new boolean[300];
-			list = new ArrayList<>();
-			arr = new int[7];
-			visit = new boolean[7];
-			for (int i = 0; i < 7; i++) {
-				arr[i] = s.nextInt();
+
+		Scanner sc = new Scanner(System.in);
+
+		T = sc.nextInt();
+		for (int test_case = 1; test_case <= T; test_case++) {
+
+			N = sc.nextInt();
+			Q = sc.nextInt();
+			arr = new int[N + 1];
+			for (int i = 0; i <= Q; i++) {
+				L = sc.nextInt();
+				R = sc.nextInt();
+				for (int j = L; j <= R; j++) {
+
+					arr[j] = i;
+
+				}
 			}
-			DFS(0, 0, 0);
-			Collections.sort(list);
-			System.out.println("#" + t + " " + list.get(list.size() - 5));
-		}
-	}
-
-	static void DFS(int depth, int idx, int res) {
-		if (depth == N) {
-			if (!check[res]) {
-				list.add(res);
-				check[res] = true;
+			System.out.print("#"+test_case+" ");
+			for (int i = 1; i <= N; i++) {
+				System.out.print(arr[i] + " ");
 			}
-			return;
+			System.out.println();
 		}
-
-		for (int i = idx; i < 7; i++) {
-			if (visit[i])
-				continue;
-			visit[i] = true;
-			DFS(depth + 1, i, res + arr[i]);
-			visit[i] = false;
-		}
-
 	}
 
 }
