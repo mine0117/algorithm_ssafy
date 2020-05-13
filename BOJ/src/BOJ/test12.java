@@ -4,28 +4,41 @@ import java.util.Scanner;
 
 public class test12 {
 
+	static int[] arr, result;
+	static int N;
+	static boolean[] visited;
+
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 
-		int N = sc.nextInt();
-		int cnt = Integer.MAX_VALUE;
+		N = sc.nextInt();
+		arr = new int[N];
+		result = new int[N];
+		visited = new boolean[N];
 		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				if (5 * j + 3 * i == N) {
-					if (cnt > i + j) {
-						cnt = i + j;
-					}
+			arr[i] = i + 1;
+		}
+		dfs(0);
+	}
 
-				}
+	private static void dfs(int cnt) {
+		if (cnt == N) {
+			for (int i = 0; i < N; i++) {
+				System.out.print(result[i] + " ");
+
 			}
+			System.out.println();
+			return;
+		}
+		for (int i = 0; i < N; i++) {
+			if (!visited[i])
+				visited[i] = true;
+			result[i] = i + 1;
+			dfs(cnt + 1);
+			visited[i] = false;
 		}
 
-		if (cnt == Integer.MAX_VALUE) {
-			System.out.println(-1);
-		} else {
-			System.out.println(cnt);
-		}
 	}
 
 }
