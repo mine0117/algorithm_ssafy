@@ -9,6 +9,9 @@ public class 비밀번호 {
 		for (int test_case = 1; test_case <= 10; test_case++) {
 			int N = sc.nextInt();
 			
+			String str = sc.next();
+			
+			
 		}
 	}
 

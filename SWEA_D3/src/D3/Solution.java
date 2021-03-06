@@ -1,38 +1,35 @@
 package D3;
 
-
-
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Solution {
-	static int T, N, Q;
-	static int[] arr;
-	static int L, R;
 
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 
-		T = sc.nextInt();
+		int T = sc.nextInt();
 		for (int test_case = 1; test_case <= T; test_case++) {
 
-			N = sc.nextInt();
-			Q = sc.nextInt();
-			arr = new int[N + 1];
-			for (int i = 0; i <= Q; i++) {
-				L = sc.nextInt();
-				R = sc.nextInt();
-				for (int j = L; j <= R; j++) {
+			String str = sc.next();
+			Stack<Integer> stack = new Stack<>();
+			boolean[] visited = new boolean[10];
+			for (int i = 0; i < str.length(); i++) {
+				int num = str.charAt(i) - '0';
 
-					arr[j] = i;
-
+				if (!visited[num]) {
+					visited[num] = true;
+					stack.push(num);
+				} else {
+					visited[num] = false;
+					if (!stack.isEmpty()) {
+						stack.pop();
+					}
 				}
 			}
-			System.out.print("#"+test_case+" ");
-			for (int i = 1; i <= N; i++) {
-				System.out.print(arr[i] + " ");
-			}
-			System.out.println();
+
+			System.out.println("#" + test_case + " " + stack.size());
 		}
 	}
 

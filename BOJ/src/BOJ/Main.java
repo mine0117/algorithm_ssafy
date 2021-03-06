@@ -3,71 +3,108 @@ package BOJ;
 import java.util.Scanner;
 
 public class Main {
-
-	static int N, M;
-	static int[][] map;
-	static boolean[][] visited;
-	static int R, C, d;
+	static int T, H, W, N;
+	static char[][] map;
+	static char[] arr;
 	static int[] dy = { -1, 0, 1, 0 };
 	static int[] dx = { 0, 1, 0, -1 };
-	static int cnt;
+	static int d;
 
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 
-		N = sc.nextInt();
-		M = sc.nextInt();
-		map = new int[N][M];
-		R = sc.nextInt();
-		C = sc.nextInt();
-		d = sc.nextInt();
-		cnt = 0;
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				map[i][j] = sc.nextInt();
+		T = sc.nextInt();
+
+		for (int test_case = 1; test_case <= T; test_case++) {
+
+			H = sc.nextInt();
+			W = sc.nextInt();
+			map = new char[H][W];
+
+			for (int i = 0; i < H; i++) {
+				String str = sc.next();
+				for (int j = 0; j < W; j++) {
+					map[i][j] = str.charAt(j);
+				}
+			}
+			N = sc.nextInt();
+			String str = sc.next();
+			for (int i = 0; i < N; i++) {
+
+				char chr = str.charAt(i);
+				int ny = 0;
+				int nx = 0;
+
+				for (int j = 0; j < H; j++) {
+					for (int k = 0; k < W; k++) {
+						if (chr == 'U') {
+							if (map[j][k] == '^' || map[j][k] == 'v' || map[j][k] == '<' || map[j][k] == '>') {
+								map[j][k] = '^';
+								d = 0;
+								if (j - 1 >= 0 && map[j - 1][k] == '.') {
+									map[j - 1][k] = '^';
+									map[j][k] = '.';
+								}
+							}
+						} else if (chr == 'D') {
+							if (map[j][k] == '^' || map[j][k] == 'v' || map[j][k] == '<' || map[j][k] == '>') {
+								map[j][k] = 'v';
+								d = 2;
+								if (j + 1 < H && map[j + 1][k] == '.') {
+									map[j + 1][k] = 'v';
+									map[j][k] = '.';
+								}
+							}
+						} else if (chr == 'L') {
+							if (map[j][k] == '^' || map[j][k] == 'v' || map[j][k] == '<' || map[j][k] == '>') {
+								map[j][k] = '<';
+								d = 3;
+								if (k - 1 >= 0 && map[j][k - 1] == '.') {
+									map[j][k - 1] = '<';
+									map[j][k] = '.';
+								}
+							}
+						} else if (chr == 'R') {
+							if (map[j][k] == '^' || map[j][k] == 'v' || map[j][k] == '<' || map[j][k] == '>') {
+								map[j][k] = '>';
+								d = 1;
+								if (k + 1 < W && map[j][k + 1] == '.') {
+									map[j][k + 1] = '>';
+									map[j][k] = '.';
+								}
+							}
+						} else if (chr == 'S') {
+							ny = j;
+							nx = k;
+							while (true) {
+								ny += dy[d];
+								nx += dx[d];
+								if (!isInside(nx, ny) || map[nx][ny] == '#')
+									break;
+								else if (map[nx][ny] == '*') {
+									map[nx][ny] = '.';
+									break;
+								}
+							}
+						}
+					}
+
+				}
+			}
+			System.out.print("#" + test_case+" ");
+			for (int i = 0; i < H; i++) {
+				for (int j = 0; j < W; j++) {
+					System.out.print(map[i][j]);
+				}
+				System.out.println();
 			}
 		}
 
-		solve(R, C, d);
-		System.out.println(cnt);
-
 	}
 
-	private static void solve(int r, int c, int d) {
-		// 1 ¹ø
-		if (map[r][c] == 0) {
-			map[r][c] = 2;
-			cnt++;
-		}
-
-		// 2¹ø
-		int leftdir = d;
-
-		for (int k = 0; k < 4; k++) {
-			leftdir = (leftdir + 3) % 4;
-			int ny = r + dy[leftdir];
-			int nx = c + dx[leftdir];
-			if (map[ny][nx] == 0 && ischecked(ny, nx)) {
-				solve(ny, nx, leftdir);
-				return;
-			}
-
-		}
-		// 3¹ø
-		int back = (d + 2) % 4;
-		int ny = r + dy[back];
-		int nx = c + dx[back];
-		if (ischecked(ny, nx) && map[ny][nx] != 1) {
-			solve(r + dy[back], c + dx[back], leftdir);
-		}
-	}
-
-	private static boolean ischecked(int my, int mx) {
-		if (my >= 0 && my < N && mx >= 0 && mx < M) {
-			return true;
-		}
-		return false;
+	public static boolean isInside(int y, int x) {
+		return x >= 0 && x < W && y >= 0 && y < H;
 	}
 
 }
